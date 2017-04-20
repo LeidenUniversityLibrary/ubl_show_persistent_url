@@ -6,22 +6,75 @@
  */
 
 /**
- * Alter display output after it has been generated.
- *
- * @param AbstractObject $object
- *   A Tuque AbstractObject being operated on.
- * @param array $rendered
- *   The array of rendered views.
+ * Implements hook_detail_tools_block_view().
  */
-function ubl_show_persistent_url_islandora_view_object_alter(&$object, &$rendered) {
+function ubl_show_persistent_url_detail_tools_block_view() {
+  $block = array();
+
+  if (arg(1) == 'object' && islandora_is_valid_pid(arg(2))) {
+    $obj = islandora_object_load(arg(2));
+    drupal_add_css(drupal_get_path('module', 'ubl_show_persistent_url') . '/css/ubl_show_persistent_url.css');
+    drupal_add_js(drupal_get_path('module', 'ubl_show_persistent_url') . '/js/ubl_show_persistent_url.js');
+
+    $url = ubl_show_persistent_url_get_persistent_url($obj);
+
+    $additional = '<DIV class="link-additional">';
+    $additional .= '<DIV class="menu">';
+    $additional .= '<H3>Link</H3>';
+    $additional .= '<DIV class="explain">';
+    $additional .= t('Use the URL below to link to this item:');
+    $additional .= '</DIV>';
+    $additional .= '<INPUT type="text" value="'.$url.'" id="persistenturl"/>';
+    $additional .= '</DIV>';
+    $additional .= '</DIV>';
+
+    // Put this in a item list.
+    $block['list'] = array(
+      '#type' => 'ul',
+      '#attributes' => array('class' => array('dc-detail-tools', 'ubl-detail-tools')),
+      '#items' => array(
+        array(
+          'data' => l(
+                      '<span>link</span><i class="fa fa-link" aria-hidden="true"></i>',
+                      $url,
+                      array('attributes' => array('title' => 'link'),'html' => TRUE)
+                     ),
+        ),
+      ),
+      '#theme' => 'item_list',
+    );
+    $block['linkadditional'] = array(
+      '#type' => 'markup',
+      '#markup' => $additional,
+    );
+
+/*
+    $menu = array();
+
+    $menu['class'] = 'ubl-detail-tools';
+    $buttons = array();
+
+    $additional = '';
+
+    $url = ubl_show_persistent_url_get_persistent_url($obj);
+    $buttons['link'] = array(
+      'label' => 'link',
+      'class' => 'fa-link',
+      'url' => $url,
+      'additional' => $additional,
+    );
+
+    $menu['buttons'] = $buttons;
+
+    $block['content']['#markup'] = theme('ubl_detail_tools', $menu);
+*/
+  }
+  return $block;
+}
+
+function ubl_show_persistent_url_get_persistent_url($object) {
+  $url = '';
   if ($object) {
-    $title = drupal_get_title();
-    $label = t('persistent url');
-    $class = "ublpersistentbutton";
-    if ((strpos($title, $label) !== FALSE) && (strpos($title, $class) !== FALSE)) {
-      return;
-    }
-    $url = '';
     if (module_exists("islandora_handle")) {
       if (isset($object['MODS'])) {
         $xpath = "/mods:mods/mods:identifier[@type='hdl']";
@@ -46,7 +99,6 @@ function ubl_show_persistent_url_islandora_view_object_alter(&$object, &$rendere
     if (strlen($url) == 0) {
       $url = url("islandora/object/" . $object->id, array('absolute' => TRUE));
     }
-    $title .= " <A href=\"$url\" class=\"$class\" data-title=\"$label\"></A>";
-    drupal_set_title($title, PASS_THROUGH);
   }
+  return $url;
 }

@@ -1,19 +1,31 @@
-#page-title > A.ublpersistentbutton {
-  background-color: white;
-  font-size: 40%;
+
+.item-list UL.ubl-detail-tools LI {
+  margin: 0;
+}
+DIV.link-additional {
+  display: none;
   padding: 5px;
-  border: solid black 1px;
-  margin-left: 15px;
-  position: relative;
-  top: -5px;
-  text-decoration: none;
-  font-weight: lighter;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  white-space: nowrap;
+  position: absolute;
+  min-width:300px;
+  max-width:450px;
+  background-color: #7f88ab;
+  z-index: 500;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+DIV.link-additional DIV.menu {
+  padding: 0 10px 0 20px;
+  margin-bottom: 30px;
+  color:white;
+}
+DIV.link-additional DIV.menu H3 {
+  color: white;
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
 }
 
-#page-title > A.ublpersistentbutton:hover {
-  text-decoration: none;
+DIV.link-additional DIV.menu INPUT#persistenturl {
+  width: 24em;
+  margin: 0.5em 0;
 }

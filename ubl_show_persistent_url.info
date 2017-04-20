@@ -3,7 +3,3 @@ description = Shows a button near the title of the islandora object that when pr
 package = UBL
 version = "7.x-1.x-dev"
 core = "7.x"
-
-files[] = ubl_show_persistent_url.module
-scripts[] = js/ubl_show_persistent_url.js
-stylesheets[all][] = css/ubl_show_persistent_url.css
