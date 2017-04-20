@@ -29,3 +29,7 @@ DIV.link-additional DIV.menu INPUT#persistenturl {
   width: 24em;
   margin: 0.5em 0;
 }
+DIV.link-additional DIV.menu BUTTON {
+  background-color: transparent;
+  color: white;
+}
