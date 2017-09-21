@@ -1,5 +1,5 @@
 name = Show persistent url
 description = Shows a button near the title of the islandora object that when pressed gives the user a persistent url to the object.
 package = UBL
-version = "7.x-1.x-dev"
+version = "7.x-2.x-dev"
 core = "7.x"
